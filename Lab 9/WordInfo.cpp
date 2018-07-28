@@ -12,7 +12,6 @@ void WordInfo::ReadWordsFromFile(const char * filename)
 	{
 
 		string line;
-		vector<string> stringVect;
 		while (getline(file, line))
 		{
 			// break line apart by space delim
@@ -57,11 +56,64 @@ void WordInfo::ReadWordsFromFile(const char * filename)
 
 				// Store words in the unordered map and increment any similar ones
 				wordMap[word]++;
-				stringVect.push_back(word);
 			}
 			
 		}
 
 		file.close();
 	}
+}
+
+
+void WordInfo::DisplayStats() const
+{
+	int avgWordLength = 0;
+	int numOfUniques = 0;
+	int totalWords = 0;
+	// Create an iterator to traverse
+	auto iter = wordMap.begin();
+
+	while (iter != wordMap.end())
+	{
+		if (iter->second == 1)
+			numOfUniques++;
+
+		avgWordLength += iter->first.length();
+		totalWords += iter->second;
+		iter++;
+	}
+
+	// Calculate average word len
+	avgWordLength = avgWordLength / totalWords;
+
+	cout << "Number of Words: " << totalWords << endl;
+	cout << "Number of Unique words: " << numOfUniques << endl;
+	cout << "Average word length: " << avgWordLength << endl;
+
+}
+
+void WordInfo::MostCommonWords(int count, bool ignoreCommonFile) const
+{
+	multimap<int, string> sortedWords;
+	int freqNum;
+	string word;
+	// Sort wordMap based on word frequency via emplacing in a multimap
+	auto iter = wordMap.begin();
+	while (iter != wordMap.end())
+	{
+		freqNum = iter->second;
+		word = iter->first;
+		sortedWords.emplace(freqNum, word);
+		iter++;
+	}
+
+	cout << count << " most common words found in the file:" << endl;
+	auto sortedIter = sortedWords.end();
+	sortedIter--; // Start at the last entry
+	for (int i = 0; i < count; i++)
+	{
+		cout << sortedIter->second << endl;
+		sortedIter--;
+	}
+
 }

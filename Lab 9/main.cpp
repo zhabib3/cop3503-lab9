@@ -19,6 +19,7 @@ int main()
 	cin >> option;
 
 	// TODO: Create a WordList object and set the list of words to ignore
+	// Read the words from the file
 	switch (option)
 	{
 	case 1:
@@ -28,10 +29,10 @@ int main()
 		break;
 	}
 
-	_getch();
-	// Read the words from the file
 	// Show the stats
+	wordInfo.DisplayStats();
 	// Show the most frequent words, NOT using the ignore list
+	wordInfo.MostCommonWords(3);
 	// Show the most frequent words, using the ignore list (to ignore the universally common words)
 
 	// (Show a number of common words based on the selected file + 1. First file shows 2 common words, second shows 3, 4th shows 5, etc)
